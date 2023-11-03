@@ -1,21 +1,22 @@
 <template>
-  <div class="content"  >
-      <div v-for="item in userStore.characters" :key="item" class="content__item">
-       <router-link :to="`/` + item.id">
+  <div class="content" >
+    <div v-for="item in userStore.characters" :key="item" class="content__item">
+      <router-link :to="`/character/` + item.id">
         <img :src="item.image" :alt="item.id">
-          <h2>{{ item.name }}</h2>
-        </router-link>
-        <span>{{ item.species }}</span>
-        <div class="content-item__episode">
-          <div v-for="(item1, index) in getArrr(item.episode)" :key="item1" >
-            
-            <a :href="item1">{{ index }}</a>
-            <span>,</span>
-          </div>
+        <h2>{{ item.name }}</h2>
+      </router-link>
+      <div>{{ item.species }}</div>
+      <div class="content-item__episode">
+        Episodes: &nbsp;
+        <div v-for="item1 in getCountLinck(item.episode)" :key="item1">
+          
+          <router-link :to="`/episode/` + item1">{{ item1 }}</router-link>
+          <span>&nbsp;</span>
         </div>
-     
+      </div>
     </div>
   </div>
+  
 
 </template>
 
@@ -34,32 +35,38 @@ export default {
   },
   data(){
     return {
-      from: 0,
-      to: 10
+      from: null,
+      to: null
     }
   },
   mounted(){
     window.addEventListener('scroll', this.handleScroll);
-    this.userStore.getMultipleCharacters(0, 1); 
-    this.from = 0;
-    this.to = 1;
+    this.userStore.getMultipleCharacters(0, 10); 
+    this.from = 11;
+    this.to = 12;
   },
   methods:{
-    getArrr(arr){
+    getCountLinck(arr){
       let newArr = []
-      for(let i=0; i<5; i++){
-        !arr[i]? '':arr[i]
-        newArr.push(arr[i]) 
+      let limit = arr.length < 5? arr.length : 5
+      for(let i = 0; i < limit; i++){  
+        let regexp = /\D/g;
+        let  episodeId = arr[i].replace(regexp, "")
+        newArr.push(episodeId) 
       } 
       return newArr
     },
     handleScroll(){
-      console.log(window.screen.height);
-      console.log(window.scrollY);
-      if(window.scrollY > window.screen.height - 50 ){
-        this.userStore.getMultipleCharacters(this.from, this.to);
-        this.from+=1;
-        this.to+=1; 
+      const height = document.body.offsetHeight
+      const screenHeight = window.innerHeight
+      const scrolled = window.scrollY
+      const threshold = height - screenHeight / 4
+      const position = scrolled + screenHeight
+      if (position >= threshold) {
+            this.userStore.getMultipleCharacters(this.from, this.to);
+            this.from+=2;
+            this.to+=2; 
+            console.log(this.from, this.to);
       }
     },
   }
