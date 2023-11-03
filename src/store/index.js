@@ -1,13 +1,21 @@
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
-export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+export const useStore = defineStore('counter', {
+  state: () => ({ 
+    characters: null 
+  }),
   getters: {
-    double: state => state.count * 2,
+    getCharacters: state => state.characters,
   },
+
   actions: {
-    increment() {
-      this.count++
+    getMultipleCharacters(from, to) {
+      let str = '';
+      for(let i = from; i <= to; i++) str += i + ','
+      console.log(str)
+      axios.get(`https://rickandmortyapi.com/api/character/` + str)
+      .then(response => (this.characters = response.data));
     },
   },
 })

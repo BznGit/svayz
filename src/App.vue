@@ -1,24 +1,29 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <p>Double count is {{ userStore.double }}</p>
+  <p>Double count is {{ userStore.characters }}</p>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import { useCounterStore } from './store/index'
+import { useStore } from './store/index'
 
 
 
 export default {
   setup() {
-    const userStore = useCounterStore();
+    const userStore = useStore();
     return { userStore };
   },
   name: 'App',
   components: {
     HelloWorld
-  }
+  },
+  mounted(){
+   
+    this.userStore.getMultipleCharacters(3, 10)
+        
+  },
 }
 </script>
 
