@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content"  >
       <div v-for="item in userStore.characters" :key="item" class="content__item">
        <router-link :to="`/` + item.id">
         <img :src="item.image" :alt="item.id">
@@ -17,8 +17,6 @@
     </div>
   </div>
 
-
-
 </template>
 
 <script>
@@ -34,8 +32,17 @@ export default {
   components: {
     
   },
+  data(){
+    return {
+      from: 0,
+      to: 10
+    }
+  },
   mounted(){
-    this.userStore.getMultipleCharacters(3, 10)  
+    window.addEventListener('scroll', this.handleScroll);
+    this.userStore.getMultipleCharacters(0, 1); 
+    this.from = 0;
+    this.to = 1;
   },
   methods:{
     getArrr(arr){
@@ -45,7 +52,16 @@ export default {
         newArr.push(arr[i]) 
       } 
       return newArr
-    }
+    },
+    handleScroll(){
+      console.log(window.screen.height);
+      console.log(window.scrollY);
+      if(window.scrollY > window.screen.height - 50 ){
+        this.userStore.getMultipleCharacters(this.from, this.to);
+        this.from+=1;
+        this.to+=1; 
+      }
+    },
   }
 }
 </script>

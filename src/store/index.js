@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const useStore = defineStore('counter', {
   state: () => ({ 
-    characters: null 
+    characters: []
   }),
   getters: {
     getCharacters: state => state.characters,
@@ -15,7 +15,13 @@ export const useStore = defineStore('counter', {
       for(let i = from; i <= to; i++) str += i + ','
       console.log(str)
       axios.get(`https://rickandmortyapi.com/api/character/` + str)
-      .then(response => (this.characters = response.data));
+      .then(response =>(
+        response.data.forEach(item=>{
+          this.characters.push(item)
+        })
+          
+          
+        ));
     },
   },
 })
