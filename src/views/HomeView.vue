@@ -79,6 +79,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 50px;
+  
 }
 .content__item{
   display: flex;
