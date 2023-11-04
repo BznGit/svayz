@@ -1,4 +1,15 @@
-<template> 
+<template>  
+<div class="contener__input">
+  <label for="alive">Alive</label>
+  <input type="checkbox" name="alive" id="1" value="alive" v-model="checkedFields" @change="select">
+  <label for="dead">Dead</label>
+  <input type="checkbox" name="dead" id="2" value="dead" v-model="checkedFields" @change="select">
+  <label for="unknown">Unknown</label>
+  <input type="checkbox" name="unknown" id="3" value="unknown" v-model="checkedFields" @change="select">
+</div>
+
+  {{ checkedFields }}
+  
   <div class="content" >
     <div v-for="item in data" :key="item" class="content__item">
       <router-link :to="`/character/` + item.id">
@@ -37,7 +48,8 @@ export default {
     return {
       from: null,
       to: null,
-      data: this.userStore.getAll
+      data: this.userStore.getAll,
+      checkedFields:[]
     }
   },
   mounted(){
@@ -53,7 +65,9 @@ export default {
     }
   },
   methods:{
-
+    select(){
+      console.log(this.checkedFields)
+    },
     filter(name){
 
       this.data = this.userStore.getFiltred(name)
@@ -114,5 +128,14 @@ img{
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
+}
+.contener__input{
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+ 
+}
+label {
+   padding-left: 20px;
 }
 </style>

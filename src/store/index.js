@@ -18,8 +18,6 @@ export const useStore = defineStore('counter', {
         if (name.length == 0) return state.characters
           let arr = state.characters.filter(item=>{
           let curr = item.name.toLowerCase();
-       
-        
           let bool = curr.includes(name.toLowerCase())
           console.log(curr, name.toLowerCase(), bool)
           if (bool == true) return true;
