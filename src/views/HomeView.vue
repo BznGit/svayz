@@ -7,9 +7,6 @@
   <label for="unknown">Unknown</label>
   <input type="checkbox" name="unknown" id="3" value="unknown" v-model="checkedFields" @change="select">
 </div>
-
-  {{ checkedFields }}
-  
   <div class="content" >
     <div v-for="item in data" :key="item" class="content__item">
       <router-link :to="`/character/` + item.id">
@@ -51,7 +48,8 @@ export default {
       to: null,
       data: this.userStore.getAll,
       checkedFields:[],
-      oldData: this.userStore.getAll,
+      oldDataFiltered: this.userStore.getAll,
+      oldDataSelected: this.userStore.getAll,
     }
   },
   mounted(){
@@ -71,18 +69,20 @@ export default {
    
       let tt = [];
       let arr = [];
-      console.log(this.oldData )
-      if (this.checkedFields.length == 0) return this.oldData
+      //let arr1 = this.oldDataSelected
+      console.log(this.oldDataSelected)
+      if (this.checkedFields.length == 0) return this.data =( !this.oldDataSelected2? this.oldDataSelected : this.oldDataSelected2)
       this.checkedFields.forEach(element => {
         tt = [];
         console.log('--*',element)
-        tt = ass(this.oldData, element)
+        tt = ass(this.oldDataSelected, element)
         console.log(tt)
         arr = arr.concat(tt)
         console.log(this.data)
       });
       this.data = arr;
 
+      this.oldDataFiltered = this.data
       function ass(arr, item){
         let resArr = [];
         arr.forEach(element => {
@@ -95,11 +95,11 @@ export default {
       }
     },
     filter(name){
-      let arr1 = this.data;
-      function  prom(name, arrP){
-        console.log('name--', name)
+      let arr1 = this.oldDataFiltered
+      function  prom(name){
+       // console.log('this.oldDataFiltered--', this.oldDataFiltered)
         if (name.length == 0) return arr1
-          let arr = arrP.filter(item=>{
+          let arr = arr1.filter(item=>{
           let curr = item.name.toLowerCase();
           let bool = curr.includes(name.toLowerCase())
           console.log(curr, name.toLowerCase(), bool)
@@ -107,8 +107,9 @@ export default {
         })
         return arr
       } 
-      this.data = prom(name, this.data)
-      this.oldData = prom(name, this.data)
+      this.data = prom(name);
+      this.oldDataSelected2 = this.oldDataSelected
+      this.oldDataSelected = this.data
       //this.data = this.userStore.getFiltred(name);
       //this.oldData = this.userStore.getFiltred(name);
     },
