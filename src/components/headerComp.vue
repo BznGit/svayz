@@ -7,15 +7,19 @@
       <img src="../assets/menu.svg">
     </div>
   </div>
-
+  
 </template>
 
 <script>
+
+import { useStore } from '../store/index'
+
 export default {
-  name: 'HeaderMain',
-  props: {
- 
+  setup() {
+    const userStore = useStore();
+    return { userStore };
   },
+  name: 'HeaderMain',
   methods:{
     openEditMenu(){
       console.log('dede')
@@ -24,6 +28,7 @@ export default {
     searching(src){
       console.log(src.target.value)
       this.$emit('search', src.target.value)
+     // this.useStore.setSearch('src.target.value')
     }
   },
     

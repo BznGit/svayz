@@ -1,6 +1,6 @@
-<template>
+<template> 
   <div class="content" >
-    <div v-for="item in userStore.characters" :key="item" class="content__item">
+    <div v-for="item in data" :key="item" class="content__item">
       <router-link :to="`/character/` + item.id">
         <img :src="item.image" :alt="item.id">
         <h2>{{ item.name }}</h2>
@@ -29,14 +29,15 @@ export default {
     const userStore = useStore();
     return { userStore };
   },
-  name: 'App',
-  components: {
-    
+  props:{
+    searchName: Object,
   },
+  name: 'App',
   data(){
     return {
       from: null,
-      to: null
+      to: null,
+      data: this.userStore.getAll
     }
   },
   mounted(){
@@ -46,7 +47,18 @@ export default {
     this.to = 12;
     
   },
+  watch: {
+    searchName: function(newName) {
+      this.filter(newName)
+    }
+  },
   methods:{
+
+    filter(name){
+
+      this.data = this.userStore.getFiltred(name)
+    },
+
     getCountLinck(arr){
       let newArr = []
       let limit = arr.length < 5? arr.length : 5

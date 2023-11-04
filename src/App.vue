@@ -1,6 +1,6 @@
 <template>
-<Header />
-<router-view />
+<Header @search="search"/>
+<router-view :searchName="searchName" />
 </template>
 
 <script>
@@ -11,6 +11,18 @@ export default {
   components: {
     Header,
   },
+  data(){
+    return {
+      searchName: null,
+     
+    }
+  },
+  methods:{
+    search(name){
+      console.log('name>', name)
+      this.searchName = name
+    }
+  }
   
 }
 </script>
