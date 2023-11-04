@@ -1,26 +1,39 @@
 <template>
-  <div class="content">
-    <h1>deef{{userStore.currCharacter.name}}</h1>
+
+<span v-if = "loading" >Идет загрузка...</span>
+  <div v-if = "!loading" class="content">
+    <h1>{{data.name}}</h1>
+    <h2>{{data.species}}</h2>
+    <div class="content__item">
+       <img  :src="data.image" alt="item.name " >
+    </div>Location: 
+    <a :href="data.location.url">{{ data.location.name }}</a>
+
   </div>
 </template>
 <script>
 
-import { useStore } from '../store/index'
+import { getOneCharacter } from '@/api/getCharacters'
 
 export default {
-  setup() {
-    const userStore = useStore();
-    return { userStore };
-  },
+  
   name: 'App',
   data(){
     return {
-
+      loading: false,
+      data: null,
     }
   },
-  mounted(){
+  created(){
     console.log(this.$route.params.id)
-    this.userStore.getCharacter(this.$route.params.id) 
+    this.loading = true;
+    getOneCharacter(this.$route.params.id).then(data=>{
+      this.loading = false
+      this.data=data.data
+      console.log(this.data)
+
+   
+    }) 
 
   },
 
@@ -33,6 +46,8 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
   padding: 50px;
+  justify-content: center;
+  align-items: center
   
 }
 .content-img{

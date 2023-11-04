@@ -44,6 +44,7 @@ export default {
     this.userStore.getMultipleCharacters(0, 10); 
     this.from = 11;
     this.to = 12;
+    
   },
   methods:{
     getCountLinck(arr){

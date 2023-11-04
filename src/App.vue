@@ -1,14 +1,15 @@
 <template>
+<Header />
 <router-view />
 </template>
 
 <script>
-
+ import Header from './components/headerComp.vue'; 
 export default {
 
   name: 'App',
   components: {
-    
+    Header,
   },
   
 }
@@ -21,6 +22,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  
+}
+body{
+  margin: 0;
 }
 
 
