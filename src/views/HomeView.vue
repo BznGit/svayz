@@ -17,6 +17,7 @@
         <h2>{{ item.name }}</h2>
       </router-link>
       <div>{{ item.species }}</div>
+      <div>Status: {{ item.status }}</div>
       <div class="content-item__episode">
         Episodes: &nbsp;
         <div v-for="item1 in getCountLinck(item.episode)" :key="item1">
@@ -49,7 +50,8 @@ export default {
       from: null,
       to: null,
       data: this.userStore.getAll,
-      checkedFields:[]
+      checkedFields:[],
+      oldData: this.userStore.getAll,
     }
   },
   mounted(){
@@ -66,11 +68,49 @@ export default {
   },
   methods:{
     select(){
-      console.log(this.checkedFields)
+   
+      let tt = [];
+      let arr = [];
+      console.log(this.oldData )
+      if (this.checkedFields.length == 0) return this.oldData
+      this.checkedFields.forEach(element => {
+        tt = [];
+        console.log('--*',element)
+        tt = ass(this.oldData, element)
+        console.log(tt)
+        arr = arr.concat(tt)
+        console.log(this.data)
+      });
+      this.data = arr;
+
+      function ass(arr, item){
+        let resArr = [];
+        arr.forEach(element => {
+          if (element.status.toLowerCase() == item) {
+            resArr.push(element)
+              
+          }
+        });
+        return resArr
+      }
     },
     filter(name){
-
-      this.data = this.userStore.getFiltred(name)
+      let arr1 = this.data;
+      function  prom(name, arrP){
+        console.log('name--', name)
+        if (name.length == 0) return arr1
+          let arr = arrP.filter(item=>{
+          let curr = item.name.toLowerCase();
+          let bool = curr.includes(name.toLowerCase())
+          console.log(curr, name.toLowerCase(), bool)
+          if (bool == true) return true;
+        })
+        return arr
+      } 
+      this.data = prom(name, this.data)
+      this.oldData = prom(name, this.data)
+      //this.data = this.userStore.getFiltred(name);
+      //this.oldData = this.userStore.getFiltred(name);
     },
 
     getCountLinck(arr){
