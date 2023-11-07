@@ -1,6 +1,4 @@
 const fs = require('fs');
-let date = new Date().getTime()
-console.log(date)
 let str = `
 set -e
 git add .
