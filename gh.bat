@@ -1,5 +1,5 @@
 
 set -e
 git add .
-git commit -m"function getMinutes() { [native code] }"
+git commit -m"7"
 git push
