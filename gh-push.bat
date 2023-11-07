@@ -1,3 +1,3 @@
 node script.js
-gh.bat
+start/wait gh.bat
 del "gh.bat"
