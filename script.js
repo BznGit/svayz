@@ -2,7 +2,7 @@ const fs = require('fs');
 let str = `
 set -e
 git add .
-git commit -m"${new Date()}"
+git commit -m"${new Date().getMinutes}"
 git push
 `
 fs.writeFileSync('gh.bat', str)
