@@ -2,19 +2,17 @@
 
 <span v-if = "loading" >Идет загрузка...</span>
   <div v-if = "!loading" class="content">
-    <h1>{{data.name}}</h1>
-    <h2>{{data.species}}</h2>
+    <h1>Lacation {{data.name}}</h1>
+    <h2>Type: {{data.type}}</h2>
+    <h2>Dimension: {{data.dimension}}</h2>
     <div class="content__item">
-       <img  :src="data.image" alt="item.name " >
-    </div>Location: 
-    <router-link :to="`/location/` + getLocationId()">
-    <span>{{ data.location.name }}</span>
-    </router-link >
+      <img src="../assets/planet.svg">
+    </div>
   </div>
 </template>
 <script>
 
-import { getOneCharacter } from '@/api/getCharacters'
+import { getOneLocation } from '@/api/getLocation'
 
 export default {
   
@@ -28,7 +26,8 @@ export default {
   created(){
     console.log(this.$route.params.id)
     this.loading = true;
-    getOneCharacter(this.$route.params.id).then(data=>{
+    console.log(this.$route.params.id)
+    getOneLocation(this.$route.params.id).then(data=>{
       this.loading = false
       this.data=data.data
       console.log(this.data)
@@ -37,13 +36,6 @@ export default {
     }) 
 
   },
- methods:{
-    getLocationId(){
-      let str = this.data.location.url
-      let regexp = /\D/g;
-      return str.replace(regexp, "")
-    }
-  }
 
 }
 </script >

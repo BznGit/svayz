@@ -37,6 +37,7 @@ export default {
     })
   },
 
+
 }
 </script >
 <style scoped>
@@ -68,7 +69,7 @@ img{
     width: 100%;
     object-fit: cover;
     border-radius: 10px;
-}.
+}
 .prelouder{
     display: flex;
     height: 20px;
