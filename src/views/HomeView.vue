@@ -32,6 +32,7 @@
 <script>
 
 import { useStore } from '../store/index'
+import { find, getSelect } from '@/utils/find'
 
 export default {
   setup() {
@@ -50,6 +51,7 @@ export default {
       checkedFields:[],
       oldDataFiltered: this.userStore.getAll,
       oldDataSelected: this.userStore.getAll,
+      name : '', 
     }
   },
   mounted(){
@@ -61,57 +63,28 @@ export default {
   },
   watch: {
     searchName: function(newName) {
+      this.name = newName
       this.filter(newName)
     }
   },
   methods:{
     select(){
-   
-      let tt = [];
-      let arr = [];
-      //let arr1 = this.oldDataSelected
-      console.log(this.oldDataSelected)
-      if (this.checkedFields.length == 0) return this.data =( !this.oldDataSelected2? this.oldDataSelected : this.oldDataSelected2)
-      this.checkedFields.forEach(element => {
-        tt = [];
-        console.log('--*',element)
-        tt = ass(this.oldDataSelected, element)
-        console.log(tt)
-        arr = arr.concat(tt)
-        console.log(this.data)
-      });
-      this.data = arr;
+      this.allFiltred()
 
-      this.oldDataFiltered = this.data
-      function ass(arr, item){
-        let resArr = [];
-        arr.forEach(element => {
-          if (element.status.toLowerCase() == item) {
-            resArr.push(element)
-              
-          }
-        });
-        return resArr
-      }
     },
-    filter(name){
-      let arr1 = this.oldDataFiltered
-      function  prom(name){
-       // console.log('this.oldDataFiltered--', this.oldDataFiltered)
-        if (name.length == 0) return arr1
-          let arr = arr1.filter(item=>{
-          let curr = item.name.toLowerCase();
-          let bool = curr.includes(name.toLowerCase())
-          console.log(curr, name.toLowerCase(), bool)
-          if (bool == true) return true;
-        })
-        return arr
-      } 
-      this.data = prom(name);
-      this.oldDataSelected2 = this.oldDataSelected
-      this.oldDataSelected = this.data
-      //this.data = this.userStore.getFiltred(name);
-      //this.oldData = this.userStore.getFiltred(name);
+    filter(){
+      this.allFiltred()
+
+   
+    },
+
+    allFiltred(){
+      console.log(this.checkedFields)
+      let name = this.name
+      let arr =  this.userStore.getAll
+      arr = find(name, arr)
+      arr = getSelect(this.checkedFields, arr)
+      this.data = arr 
     },
 
     getCountLinck(arr){
